@@ -15,7 +15,16 @@ public class GreetingResourceTest {
           .when().get("/hello")
           .then()
              .statusCode(200)
-             .body(is("Hello RESTEasy"));
+             .body(is("Hello Quarkus"));
+    }
+
+    @Test //Redist tests are integration
+    public void testRedisGet() {
+        given()
+                .when().get("/caas/redis/api/v1/set/team/caasden")
+                .then()
+                .statusCode(200)
+                .body(is("caasden"));
     }
 
 }
