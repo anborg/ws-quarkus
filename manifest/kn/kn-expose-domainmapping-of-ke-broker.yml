@@ -1,0 +1,10 @@
+# Expose broker externally using DomainMapping CRD on broker-ingress.knative-eventing.127.0.0.1.nip.io
+apiVersion: serving.knative.dev/v1alpha1
+kind: DomainMapping
+metadata:
+  name: broker-ingress.knative-eventing.127.0.0.1.nip.io
+spec:
+  ref:
+    name: broker-ingress
+    kind: Service
+    apiVersion: v1

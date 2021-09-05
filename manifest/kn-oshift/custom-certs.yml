@@ -1,0 +1,10 @@
+# Optional.
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  namespace: knative-serving
+spec:
+controller-custom-certs:
+  name: config-service-ca #If no controller custom cert is specified, this setting defaults to use the config-service-ca config map.
+  type: ConfigMap

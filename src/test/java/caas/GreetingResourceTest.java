@@ -18,7 +18,7 @@ public class GreetingResourceTest {
              .body(is("Hello Quarkus"));
     }
 
-    @Test //Redist tests are integration
+    //@Test //Redist tests are integration
     public void testRedisGet() {
         given()
                 .when().get("/caas/redis/api/v1/set/team/caasden")

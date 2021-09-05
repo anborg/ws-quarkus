@@ -1,0 +1,24 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: kn-helloworld
+spec:
+  template:
+    metadata:
+      name: kn-helloworld-v1
+      annotations:
+        #make it 1 if you don't want coldstart
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "1"
+    spec:
+      imagePullSecrets:
+        - name: denteam-image-repo-secret #{APPTEAM}-
+      containers:
+#        - image: gcr.io/knative-samples/helloworld-go
+#        - image: registry.ford.com/pnatar14/demo-caas-python
+        - image: registry.ford.com/den-org/demo-caas-python:0.1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TARGET
+              value: "World"

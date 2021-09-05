@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: kn-caasdemo-quarkus-rest
+spec:
+  template:
+    metadata:
+      name: kn-caasdemo-quarkus-rest-v1
+      annotations:
+        #make it 1 if you don't want coldstart
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "2"
+    spec:
+      imagePullSecrets:
+        - name: denteam-image-repo-secret #{APPTEAM}-
+      containers:
+        - image: registry.ford.com/den-org/caasdemo-quarkus-rest:1.0.0-SNAPSHOT
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TARGET
+              value: "World"

@@ -1,0 +1,17 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: kn-helloworld
+spec:
+  template:
+    metadata:
+      name: kn-helloworld
+    spec:
+      containers:
+#        - image: gcr.io/knative-samples/helloworld-go
+         - image: registry.ford.com/pnatar14/demo-caas-python
+           ports:
+             - containerPort: 8080
+           env:
+             - name: TARGET
+               value: "World"

@@ -1,0 +1,7 @@
+#Enable broker domain for DomainMapping
+apiVersion: networking.internal.knative.dev/v1alpha1
+kind: ClusterDomainClaim
+metadata:
+  name: broker-ingress.knative-eventing.127.0.0.1.nip.io
+spec:
+  namespace: knative-eventing
