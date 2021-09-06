@@ -3,7 +3,7 @@ oc delete knativeservings.operator.knative.dev knative-serving -n knative-servin
 #Afterthecommandhascompletedandallpodshavebeenremovedfromtheknative-serving namespace, delete the namespace
 oc delete namespace knative-serving
 
-#Deletetheknative-eventingcustomresource
+#Delete the knative-eventing custom resource
 oc delete knativeeventings.operator.knative.dev knative-eventing -n knative-eventing
 #Afterthecommandhascompletedandallpodshavebeenremovedfromtheknative-eventing namespace, delete the namespace:
 oc delete namespace knative-eventing
