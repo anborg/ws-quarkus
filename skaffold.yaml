@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2beta19
+kind: Config
+metadata:
+  name: ws-quarkus
+build:
+  artifacts:
+  - image: prem/ws-quarkus
+    context: .
+    buildpacks:
+      builder: gcr.io/buildpacks/builder:v1
+deploy:
+  kubectl:
+    manifests:
+    - target/kubernetes/kubernetes.json
+    - target/kubernetes/kubernetes.yml
+    - target/kubernetes/openshift.json
+    - target/kubernetes/openshift.yml

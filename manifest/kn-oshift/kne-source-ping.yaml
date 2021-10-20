@@ -1,0 +1,13 @@
+apiVersion: sources.knative.dev/v1alpha2
+kind: PingSource
+metadata:
+  name: kne-source-ping-test
+spec:
+  #send ping message every two minutes
+  schedule: "*/2 * * * *"
+  jsonData: '{"message": "Hello world!"}'
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: kne-sink-eventprinter

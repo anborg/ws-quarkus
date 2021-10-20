@@ -1,4 +1,4 @@
-package caas.cache;
+package service.cache;
 import io.quarkus.redis.client.RedisClient;
 import io.quarkus.redis.client.reactive.ReactiveRedisClient;
 import io.smallrye.mutiny.Uni;
@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import java.util.*;
 
 @Singleton
-public class CacheServiceRedis implements CacheService {
+public class CacheServiceRedis implements CacheService<String, String> {
 
     @Inject
     RedisClient redis;
@@ -25,9 +25,10 @@ public class CacheServiceRedis implements CacheService {
     }
 
     @Override
-    public String put(String key, String val) {
+    public Pair<String,String> put(String key, String val) {
         redis.set(Arrays.asList(key, val.toString()));
-        return get(key).get();
+        var val2 = get(key).get();
+        return Pair.of(key, val2);
     }
 
     @Override
@@ -43,6 +44,7 @@ public class CacheServiceRedis implements CacheService {
                     List<String> result = new ArrayList<>();
                     for (io.vertx.mutiny.redis.client.Response r : response) {
                         result.add(r.toString());
+                        System.out.println(r.toString());
                     }
                     return result;
                 });

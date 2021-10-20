@@ -23,7 +23,7 @@ kn service describe hello-kn-event -o url
 
 
 # Install jaggar for tracing TODO problem
-oc apply -f kn-tracing-jaeger.yaml
+oc apply -f kn-tracing-jaeger-inmem.yaml
 #Getthehostnameofthejaegerroute
 oc get route jaeger
 
@@ -31,12 +31,35 @@ oc get route jaeger
 # see custom-certs.yml
 
 #########  Install kn-eventing
-oc apply -f kn-eventing.yaml
+oc apply -f kne-eventing.yaml
 #Verifytheinstallationiscompletebyentering
 oc get knativeeventing.operator.knative.dev/knative-eventing \
 -n knative-eventing \
 --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
 oc get pods -n knative-eventing
+
+# ----- broker ---
+# check if there is a broker
+kn broker list
+# create broker
+kn broker create default
+kn broker describe default
+# event source
+kn source list --type PingSource
+
+#
+oc apply -f kne-sink-ping-eventprinter.yaml
+oc apply -f kne-source-ping.yaml
+kn source list --type PingSource
+kn source ping describe kne-test-ping-source
+
+# --event watch ---
+#By default, Knative services terminate their pods if no traffic is received within a 60 second period.
+#Watch for new pods created:
+watch oc get pods
+#look at the logs of the created pod
+oc logs $(oc get pod -o name | grep kne-sink-hello-v1) -c user-container
+
 
 # InatLL kne- Kafka
 oc apply -f kne-kafka.yaml

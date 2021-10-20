@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ws-quarkus - 1.0.0-SNAPSHOT</title>
+    <title>ws-quarkus: 1.0.0-SNAPSHOT</title>
     <style>
         h1, h2, h3, h4, h5, h6 {
             margin-bottom: 0.5rem;
@@ -109,31 +109,40 @@
 <body>
 
 <div class="banner lead">
-    Your new Cloud-Native application is ready!
+    A Demo Cloud-Native application is ready!
 </div>
 
 <div class="container">
     <div class="left-column">
-        <p class="lead"> Congratulations, you have created a new Quarkus cloud application.</p>
+        <p class="lead"> Congratulations, you have deployed a new Quarkus cloud application.</p>
 
-        <h2>What is this page?</h2>
+        <h2>Whats' in this <code>ws-quarkus</code> api?</h2>
 
-        <p>This page is served by Quarkus. The source is in
-            <code>src/main/resources/META-INF/resources/index.html</code>.</p>
 
-        <h2>What are your next steps?</h2>
+        <ul>
+            <li>This page is served by Quarkus. The source is in
+                <code>src/main/resources/META-INF/resources/index.html</code>.</li>
+            <li>This api connects to a GCP memorystore-redis </li>
+            <li>A manifest to deploy in openshift knative<code>[insert here]</code>. Openshift <a href="https://localhost:8080/q/swagger-ui">instance</a></li>
+            <li>TODO: Add <code>Secrets</code>, remove redis secrets </li>
+            <li>TODO: Add <code>ConfigMap</code>, remove redis ip</li>
+            <li>TODO: Add <code>eventing</code></li>
+        </ul>
 
-        <p>If not already done, run the application in <em>dev mode</em> using: <code>./mvnw compile quarkus:dev</code>.
+        <h2>Your next steps?</h2>
+
+        <p>If not already done, run the application in <em>dev mode</em> using: <code>mvn compile quarkus:dev</code>. And access the local instance at <a href="http://localhost:8080/q/swagger-ui/">http://localhost:8080/q/swagger-ui</a>
         </p>
         <ul>
             <li>Your static assets are located in <code>src/main/resources/META-INF/resources</code>.</li>
             <li>Configure your application in <code>src/main/resources/application.properties</code>.</li>
-            <li>Quarkus now ships with a <a href="/q/dev/">Dev UI</a> (available in dev mode only)</li>
+            <li>Inspect & edit config: <a href="/q/dev/">Dev UI</a> (available in dev mode only)</li>
             <li>Play with the provided code located in <code>src/main/java</code>:</li>
+            <li>Experiment deploying in your namespace. Demo openshift <a href="https://localhost:8080/q/swagger-ui/">instance</a></li>
         </ul>
                 <div class="provided-code">
             <h3>RESTEasy JAX-RS</h3>
-            <p>Easily start your RESTful Web Services</p>
+            <p>Easily start your RESTful Web Services. Checkout  <a href="/q/swagger-ui">swaggerui-here</a> </p>
             <p><code>@Path: <a href="/hello" class="path-link" target="_blank">/hello</a></code></p>
             <p><a href="https://quarkus.io/guides/getting-started#the-jax-rs-resources" class="guide-link" target="_blank">Related guide section...</a></p>
         </div>
@@ -143,17 +152,18 @@
         <div class="right-section">
             <h3>Application</h3>
             <ul>
-                <li>GroupId: <code>caas</code></li>
+                <li>GroupId: <code>api</code></li>
                 <li>ArtifactId: <code>ws-quarkus</code></li>
                 <li>Version: <code>1.0.0-SNAPSHOT</code></li>
                 <li>Quarkus Version: <code>2.2.1.Final</code></li>
             </ul>
         </div>
         <div class="right-section">
-            <h3>Do you like Quarkus?</h3>
+            <h3>Is this api useful?</h3>
             <ul>
-                <li>Go give it a star on <a href="https://github.com/quarkusio/quarkus">GitHub</a>.</li>
-            </ul>
+                <li>Go give it a star on <a href="https://quarkus.io">GitHub</a>.</li>
+                <li>Fork it and customize <a href="https://quarkus.io">fork</a>.</li>
+                <li>Need help integrating with __ infra? Email test.</ul>
         </div>
         <div class="right-section">
             <h3>Selected extensions guides</h3>

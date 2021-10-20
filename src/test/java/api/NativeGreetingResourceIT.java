@@ -1,4 +1,4 @@
-package caas;
+package api;
 
 import io.quarkus.test.junit.NativeImageTest;
 

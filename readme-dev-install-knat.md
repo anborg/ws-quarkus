@@ -1,4 +1,4 @@
-Quarkus app Develop
+Quarkus api Develop
 
 ```asciidoc
 mvn compile quarkus:dev
@@ -84,7 +84,7 @@ curl -v -H "Host: kourier-internal.kourier-system.svc.cluster.local" http://10.1
 
 
 ==========
-Insastall knative : https://github.com/csantanapr/knative-minikube
+Install knative : https://github.com/csantanapr/knative-minikube
 
 export KNATIVE_VERSION="0.24.0"
 
@@ -118,7 +118,7 @@ kubectl wait pod --timeout=-1s --for=condition=Ready -l '!job-name' -n knative-s
 EXTERNAL_IP=$(kubectl -n kourier-system get service kourier -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo EXTERNAL_IP=$EXTERNAL_IP
 
-#Set the environment variable KNATIVE_DOMAIN as the DNS domain using nip.io
+#Set the environment variable KNATIVE_DOMAIN as the DNS model using nip.io
 
 KNATIVE_DOMAIN="$EXTERNAL_IP.nip.io"
 echo KNATIVE_DOMAIN=$KNATIVE_DOMAIN
@@ -129,7 +129,7 @@ dig $KNATIVE_DOMAIN
 
 #Configure DNS for Knative Serving
 
-kubectl patch configmap -n knative-serving config-domain -p "{\"data\": {\"$KNATIVE_DOMAIN\": \"\"}}"
+kubectl patch configmap -n knative-serving config-model -p "{\"data\": {\"$KNATIVE_DOMAIN\": \"\"}}"
 
 #Configure Knative to use Kourier
 

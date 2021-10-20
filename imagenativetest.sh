@@ -1,0 +1,1 @@
+docker run -i --rm -p 8080:8080 docker.io/myorg/ws-quarkus-native

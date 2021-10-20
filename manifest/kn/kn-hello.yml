@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
 #        - image: gcr.io/knative-samples/helloworld-go
-         - image: registry.ford.com/pnatar14/demo-caas-python
+         - image: docker.io/prem/demo-python
            ports:
              - containerPort: 8080
            env:

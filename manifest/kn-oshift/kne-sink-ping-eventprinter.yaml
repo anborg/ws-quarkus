@@ -1,0 +1,11 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: kne-sink-eventprinter
+spec:
+  template:
+    metadata:
+      name: kne-sink-eventprinter-v1
+    spec:
+      containers:
+        - image: quay.io/openshift-knative/knative-eventing-sources-event-display:latest

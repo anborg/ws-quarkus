@@ -1,3 +1,3 @@
-oc login -u pnatar14 --server=https://api.sb104.caas.gcp.ford.com:6443
+oc login -u prem --server=https://api:6443
 #oc project  devenablement-dev
-oc projects
+oc project deven-knative

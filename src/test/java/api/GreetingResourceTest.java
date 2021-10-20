@@ -1,4 +1,4 @@
-package caas;
+package api;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,10 @@ public class GreetingResourceTest {
     //@Test //Redist tests are integration
     public void testRedisGet() {
         given()
-                .when().get("/caas/redis/api/v1/set/team/caasden")
+                .when().get("/api/v1/redis/set/team/myteam")
                 .then()
                 .statusCode(200)
-                .body(is("caasden"));
+                .body(is("49ers"));
     }
 
 }

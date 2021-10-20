@@ -12,3 +12,5 @@ oc delete namespace knative-eventing
 # To delete the remaining OpenShift Serverless CRDs, ente
 oc get crd -oname | grep 'knative.dev' | xargs oc delete
 
+# kn event broker deletes
+kn delete broker default

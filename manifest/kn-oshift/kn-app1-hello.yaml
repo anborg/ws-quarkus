@@ -15,8 +15,7 @@ spec:
         - name: denteam-image-repo-secret #{APPTEAM}-
       containers:
 #        - image: gcr.io/knative-samples/helloworld-go
-#        - image: registry.ford.com/pnatar14/demo-caas-python
-        - image: registry.ford.com/den-org/demo-caas-python:0.1
+        - image: docker.io/prem/demo-python:0.1
           ports:
             - containerPort: 8080
           env:
