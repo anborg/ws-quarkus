@@ -1,0 +1,26 @@
+#%prod:
+#  quarkus:
+#   datasource:
+#    db-kind: oracle
+#    username: quarkus_test
+#    password: quarkus_test
+#    jdbc:
+#      url: jdbc:oracle://localhost/quarkus_test
+#      max-size: 8
+#      min-size: 2
+
+quarkus:
+  datasource:
+    db-kind: oracle
+    username: integ
+    password: integ123
+    jdbc:
+      url: jdbc:oracle:thin:@localhost:1521/xe
+      max-size: 8
+      jdbc.min-size: 2
+  hibernate-orm:
+    database:
+      generation: drop-and-create # one, create, drop-and-create, drop, update, validate
+    log:
+      sql: true
+    sql-load-script: import.sql
