@@ -20,21 +20,17 @@ import java.util.logging.Logger;
 @Path("/api/v1/asset/workorders")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Tag(name = "asset-dWorkOrdero")
+@Tag(name = "Work Orders")
 @ApplicationScoped
 public class AssetResource {
 
     private static final Logger LOGGER = Logger.getLogger(AssetResource.class.getName());
-
-//    @Inject
-//    AssetServiceOracle service;
 
     @Inject
     EntityManager em;
 
     @GET
     public List<WorkOrder> getAll() {
-//        return service.getAll();
         return em.createNamedQuery("WorkOrder.findAll", WorkOrder.class)
                 .getResultList();
     }
