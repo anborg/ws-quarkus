@@ -1,21 +1,21 @@
 package api;
 
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import service.cache.CacheService;
-import service.cache.Pair;
-import io.smallrye.mutiny.Uni;
+//import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+//import service.cache.CacheService;
+//import service.cache.Pair;
+//import io.smallrye.mutiny.Uni;
+//
+//import javax.inject.Inject;
+//import javax.ws.rs.*;
+//import javax.ws.rs.core.MediaType;
+//import javax.ws.rs.core.Response;
+//import java.util.List;
 
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-
-@Path("/api/v1/redis/objects")
-@Produces(MediaType.APPLICATION_JSON)
-@Tag(name = "cache-demo")
+//@Path("/api/v1/redis/objects")
+//@Produces(MediaType.APPLICATION_JSON)
+//@Tag(name = "cache-demo")
 public class CachedemoResource {
-
+/*
     @Inject
     CacheService<String,String> cache;
 
@@ -47,5 +47,5 @@ public class CachedemoResource {
     @Path("{key}")
     public Uni<Void> delete(@PathParam("key") String key) {
         return cache.del(key);
-    }
+    }*/
 }

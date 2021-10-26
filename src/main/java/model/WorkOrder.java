@@ -1,33 +1,92 @@
 package model;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import java.sql.Date;
+import java.time.Instant;
+import java.util.StringJoiner;
 
 
 @Entity
-@Table(name = "WORK_ORDERS")
-@NamedQuery(name = "WorkOrder.findAll", query = "SELECT wo FROM WorkOrder wo ORDER BY wo.id", hints = @QueryHint(name = "org.hibernate.cacheable", value = "true"))
+@Table(name = "WO")
+@NamedQuery(name = "WorkOrder.findAll"
+        , query = "SELECT wo FROM WorkOrder wo " +
+        "WHERE wo.createDate  >=  to_date(: sinceDate,'yyyy-MM-dd')  " +
+        "AND (wo.status = 'N' or wo.status = 'P')" +
+        " ORDER BY wo.id"
+        , hints = @QueryHint(name = "org.hibernate.cacheable", value = "false")) //trunc(:sinceDate - 1,'DD')
+
 @Cacheable
+/*
+INSERT INTO WO ( WO_ID,SVC_PT_ID,MTR_WRK_TP_CD,WO_DT,DSPTCH_GRP_CD,WO_STAT_CD,NTG_PROJ_CD,INSTRUCTIONS,COMMENTS,ADD_DT,ADD_BY,MOD_DT,MOD_BY )  VALUES (  218598,136517,'SVCN',to_date('20211026000000','yyyyMMddHH24miss') ,'NEPTUNE','N','A399','Testing Work Order Instructions','Testing Work Order Comments',to_date('20211026143157','yyyyMMddHH24miss') ,'APW',to_date('20211026143157','yyyyMMddHH24miss') ,'APW' )
+ */
 public class WorkOrder {
     @Id
+    //@SequenceGenerator(name = "work_order_sequence", sequenceName = "work_order_sequence", allocationSize = 1, initialValue = 10)
+    @GeneratedValue(generator = "WO_SEQ")
+    @Min(value = 0L, message = "The value must be positive")
+    @Column(name = "WO_ID",length = 12, unique = true)
+    public Long id;
+    @Min(value = 0L, message = "The value must be positive")
+    @Column(name = "SVC_PT_ID",length = 12)
+    public Long servicePointId;
 
-    @SequenceGenerator(name = "work_order_sequence", sequenceName = "work_order_sequence", allocationSize = 1, initialValue = 10)
-    @GeneratedValue(generator = "work_order_sequence")
-    @Column(length = 10, unique = true)
-    public Integer id;
+    @Column(name = "EAM_WO",length = 12)
+    public String eamWorkOrderId;
 
-    @Column(length = 100)
-    public String description;
+    @Column(name = "WO_DT", insertable = false)
+    public Instant createDate;
 
-    @Column(length = 10)
+    @Column(name = "WO_DSPTCH_DT")
+    public Date dispatchDate;
+
+    @Column(name="DSPTCH_GRP_CD", length = 10)
+    public String dispatchGroupCode;
+
+    @Column(name = "MTR_WRK_TP_CD",length = 12)
+    public String meterWorkTypeCode;
+
+    @Column(name = "NTG_PROJ_CD",length = 4)
+    public String meterServiceProjectCode;
+
+    @Column(length = 1000)
+    public String comments;
+
+    @Column(length = 4000)
+    public String instructions;
+
+
+    @Column(name="WO_STAT_CD",length = 10)
     public String status;
 
+    @Column(name = "ADD_DT")//, insertable = false
+    public Date addDate;
+
+    @Column(name = "ADD_BY") //, insertable = false
+    public String addBy;
+    @Column(name = "MOD_DT")//, insertable = false
+    public Date modDate;
+
+    @Column(name = "MOD_BY") //, insertable = false
+    public String modBy;
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("WorkOrder{");
-        sb.append("id=").append(id);
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", status='").append(status).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return new StringJoiner(", ", WorkOrder.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("servicePointId=" + servicePointId)
+                .add("eamWorkOrderId='" + eamWorkOrderId + "'")
+                .add("createDate=" + createDate)
+                .add("dispatchDate=" + dispatchDate)
+                .add("dispatchGroupCode='" + dispatchGroupCode + "'")
+                .add("meterWorkTypeCode='" + meterWorkTypeCode + "'")
+                .add("meterServiceProjectCode='" + meterServiceProjectCode + "'")
+                .add("comments='" + comments + "'")
+                .add("instructions='" + instructions + "'")
+                .add("status='" + status + "'")
+                .add("addDate=" + addDate)
+                .add("addBy='" + addBy + "'")
+                .add("modDate=" + modDate)
+                .add("modBy='" + modBy + "'")
+                .toString();
     }
 }
