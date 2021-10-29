@@ -5,9 +5,7 @@ package service.cache;
 //import io.vertx.redis.client.Response;
 //import io.vertx.mutiny.redis.client.Response;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.*;
 
 @Singleton
 public class CacheServiceRedis {// implements CacheService<String, String> {

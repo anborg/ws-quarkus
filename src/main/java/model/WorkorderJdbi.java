@@ -1,15 +1,12 @@
 package model;
-import io.quarkus.runtime.annotations.RegisterForReflection;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import java.sql.Date;
-import java.time.Instant;
-import java.util.StringJoiner;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @RegisterForReflection
 //Note: If you change order of fields,
-public class WorkOrderJDBI {
+public class WorkorderJdbi {
     public Long id;
     public Long servicePointId;
     public String eamWorkOrderId;

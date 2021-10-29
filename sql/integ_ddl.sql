@@ -1,0 +1,12 @@
+CREATE TABLE INTEG_ADDRESS (
+                               id  INTEGER -- GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) PRIMARY KEY
+    , streetnum VARCHAR(10)
+    , streetname VARCHAR(30)
+    , city VARCHAR(20)
+    , country VARCHAR(20)
+    , postalcode VARCHAR(10)
+    , lat DECIMAL(8,6)
+    , lon DECIMAL(9,6)
+    , ts_create TIMESTAMP  DEFAULT CURRENT_TIMESTAMP
+    , ts_update TIMESTAMP  DEFAULT CURRENT_TIMESTAMP -- ON UPDATE CURRENT_TIMESTAMP
+);
