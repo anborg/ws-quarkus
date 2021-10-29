@@ -1,4 +1,7 @@
 package model;
+import io.quarkus.hibernate.reactive.panache.PanacheEntity;
+import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.sql.Date;
@@ -16,12 +19,8 @@ import java.util.StringJoiner;
         , hints = @QueryHint(name = "org.hibernate.cacheable", value = "false")) //trunc(:sinceDate - 1,'DD')
 
 @Cacheable
-/*
-INSERT INTO WO ( WO_ID,SVC_PT_ID,MTR_WRK_TP_CD,WO_DT,DSPTCH_GRP_CD,WO_STAT_CD,NTG_PROJ_CD,INSTRUCTIONS,COMMENTS,ADD_DT,ADD_BY,MOD_DT,MOD_BY )  VALUES (  218598,136517,'SVCN',to_date('20211026000000','yyyyMMddHH24miss') ,'NEPTUNE','N','A399','Testing Work Order Instructions','Testing Work Order Comments',to_date('20211026143157','yyyyMMddHH24miss') ,'APW',to_date('20211026143157','yyyyMMddHH24miss') ,'APW' )
- */
-public class WorkOrder {
+public class WorkOrder extends PanacheEntityBase {
     @Id
-    //@SequenceGenerator(name = "work_order_sequence", sequenceName = "work_order_sequence", allocationSize = 1, initialValue = 10)
     @GeneratedValue(generator = "WO_SEQ")
     @Min(value = 0L, message = "The value must be positive")
     @Column(name = "WO_ID",length = 12, unique = true)

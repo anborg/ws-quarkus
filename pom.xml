@@ -36,7 +36,11 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-orm</artifactId>
+      <artifactId>quarkus-hibernate-reactive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-reactive-panache</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -77,6 +81,22 @@
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.20</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-core</artifactId>
+      <version>3.12.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-sqlobject</artifactId>
+      <version>3.12.2</version>
     </dependency>
     <!-- other-->
 

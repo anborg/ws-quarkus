@@ -1,3 +1,8 @@
+
+
+
+
+
 --136517
 
 INSERT INTO WO (
@@ -8,11 +13,13 @@ WO_ID,SVC_PT_ID,MTR_WRK_TP_CD
 ,MOD_BY
 )  VALUES (
 WO_SEQ.nextval,136517,'SVCN'
-,to_date('20211026000000','yyyyMMddHH24miss') ,'NEPTUNE','N'
+,to_date('20210626000000','yyyyMMddHH24miss') ,'NEPTUNE','N'
 ,'A399','Testing Work Order Instructions','Testing Work Order Comments'
 ,to_date('20211026143157','yyyyMMddHH24miss') ,'APW',to_date('20211026143157','yyyyMMddHH24miss') ,'APW'
 );
 
+commit;
 
 select * from WO where WO_DT >= to_date('2021-06-01','yyyy-MM-dd');
+
 select * from WO where WO_DT >= to_date('2021-07-01','yyyy-MM-dd');

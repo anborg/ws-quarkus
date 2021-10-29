@@ -13,17 +13,20 @@ quarkus:
   swagger-ui:
     always-include: true
   datasource:
-    db-kind: oracle
-    username: ITSEAMINTEG
-    password: its3aM#nt3G
-    jdbc:
-      url: jdbc:oracle:thin:@wwktestdb:1521/wwk
-      max-size: 8
-      jdbc.min-size: 2
+    datasource-cis: #named datasource
+      db-kind: oracle
+      username: integ
+      password: integ123
+      jdbc:
+        url: jdbc:oracle:thin:@localhost:1521/xe
+        max-size: 8
   hibernate-orm:
-    database:
-      default-schema: APPSCIS
-      generation: validate # none, create, drop-and-create, drop, update, validate
-    log:
-      sql: true
-    sql-load-script: import.sql
+    datasource-cis:
+      datasource: "datasource-cis" # defined above
+      packages: package model
+      database:
+        default-schema: integ
+        generation: validate # none, create, drop-and-create, drop, update, validate
+      log:
+        sql: true
+      sql-load-script: import.sql

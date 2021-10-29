@@ -1,17 +1,19 @@
 package api;
 
+import io.quarkus.hibernate.orm.PersistenceUnit;
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import model.WorkOrder;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.hibernate.SessionFactory;
+import org.hibernate.reactive.provider.service.ReactiveSessionFactoryBuilder;
+import org.hibernate.reactive.session.ReactiveSession;
 
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
-import javax.persistence.TypedQuery;
+import javax.inject.Qualifier;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -32,11 +34,16 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class WorkOrderResource {
 
-    private static final Logger LOGGER = Logger.getLogger(WorkOrderResource.class.getName());
+    private static final Logger log = Logger.getLogger(WorkOrderResource.class.getName());
     static final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @Inject
+//    @Inject
+    @PersistenceUnit("datasource-cis")
     EntityManager em;
+//    @Inject
+    @PersistenceUnit("datasource-cis")
+    EntityManagerFactory emf;
+
 
     @GET
     @Path("actionable/since/{createDate}")
@@ -78,33 +85,35 @@ public class WorkOrderResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("{id}/eam/{eamId}")
     @Transactional
-    public WorkOrder update(@PathParam("id") Long id, WorkOrder in) {
-        if (in.comments == null) {
-            throw new WebApplicationException("Fruit Name was not set on request.", 422);
+    public Response update(@PathParam("id") Long id,@PathParam("eamId") String eamWorkOrderId) {
+        if (Objects.isNull(id) || Objects.isNull(eamWorkOrderId)) {
+            final var err  = "Invalid input params id / eamWorkOrderId";
+            log.severe(err);
+            return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), err).build();
         }
+        final var out = em.find(WorkOrder.class, id);
 
-        var entity = em.find(WorkOrder.class, id);
-
-        if (entity == null) {
-            throw new WebApplicationException("WorkOrder with id of " + id + " does not exist.", 404);
+        if (Objects.isNull(out)) {
+            final var err = "Not found. Find who is sending invalid id";
+            log.warning(err);
+            return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
         }
-
-        entity.comments = in.comments;
-        entity.status = in.status;
-        return entity;
+        out.eamWorkOrderId = eamWorkOrderId;
+        em.persist(out);
+        return Response.ok().build();
     }
 
 //    @DELETE
 //    @Path("{id}")
 //    @Transactional
-    public Response delete(@PathParam("id") Long id) {
-        var entity = em.getReference(WorkOrder.class, id);
-        if (entity == null) {
-            throw new WebApplicationException("WorkOrder with id of " + id + " does not exist.", 404);
-        }
-        em.remove(entity);
-        return Response.status(204).build();
-    }
+//    public Response delete(@PathParam("id") Long id) {
+//        var entity = em.getReference(WorkOrder.class, id);
+//        if (entity == null) {
+//            throw new WebApplicationException("WorkOrder with id of " + id + " does not exist.", 404);
+//        }
+//        em.remove(entity);
+//        return Response.status(204).build();
+//    }
 }
