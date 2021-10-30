@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import test.TestUtil;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @QuarkusTest
@@ -16,12 +16,14 @@ public class CisServiceTest {
     private static final Logger log = Logger.getLogger(WorkorderResource.class.getName());
 
     @Inject
-    CisService repo;
+    CisService service;
 
     @Test
     public void shouldSaveWorkorder() {
         final Workorder in = TestUtil.workorder.build4Create();
-        final Workorder out = repo.persist(in);
+        service.persist(in);
+        final Optional<Workorder> outOpt = service.byId(in.id);
+        var out = outOpt.get();
         Assertions.assertNotNull(out.id);
         Assertions.assertNotNull(out.addDate);
         Assertions.assertNull(out.modDate);

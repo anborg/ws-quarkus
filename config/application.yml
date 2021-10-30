@@ -1,15 +1,32 @@
-#%prod:
-#  quarkus:
-#   datasource:
-#    db-kind: oracle
-#    username: quarkus_test
-#    password: quarkus_test
-#    jdbc:
-#      url: jdbc:oracle://localhost/quarkus_test
-#      max-size: 8
-#      min-size: 2
-
 quarkus:
+  log:
+    level: INFO
+    file:
+      enable: true
+      async: true
+      path: ./logs/cisapi.log
+      format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+    console:
+      format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+    # Configure a named handler that logs to file
+    handler:
+      file:
+        "STRUCTURED_LOGGING_FILE":
+          enable: true
+          format: "%e%n"
+      console:
+        "STRUCTURED_LOGGING":
+          format: "%e%n"
+  category: # Configure the category and link the named handlers to it
+    "io.quarkus.category":
+      level: INFO
+      handlers:
+          STRUCTURED_LOGGING,STRUCTURED_LOGGING_FILE
+    "org.hibernate":
+      level: DEBUG
+      handlers:
+        STRUCTURED_LOGGING
+
   swagger-ui:
     always-include: true
   datasource:
@@ -30,3 +47,14 @@ quarkus:
     log:
       sql: true
     sql-load-script: import.sql
+
+#%prod:
+#  quarkus:
+#   datasource:
+#    db-kind: oracle
+#    username: quarkus_test
+#    password: quarkus_test
+#    jdbc:
+#      url: jdbc:oracle://localhost/quarkus_test
+#      max-size: 8
+#      min-size: 2

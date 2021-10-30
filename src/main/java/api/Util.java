@@ -11,4 +11,7 @@ class Util {
     static Response notFound() {
         return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
     }
+    static Response serverError(String err) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), err).build();
+    }
 }

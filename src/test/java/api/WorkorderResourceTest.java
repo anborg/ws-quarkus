@@ -10,9 +10,6 @@ import test.TestUtil;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.*;
-import java.net.URL;
-import java.time.Instant;
-import java.util.Date;
 import java.util.logging.Logger;
 
 import static io.restassured.RestAssured.given;
@@ -29,7 +26,7 @@ public class WorkorderResourceTest {
     @Test
     public void post_get_Workorder() {
         final var in = TestUtil.workorder.build4Create();
-        //expect new obj & addDt
+        //Create : expect new obj & id & addDt
         Response post_resp = given()
                 .header("Content-type", MediaType.APPLICATION_JSON)
                 .and().body(in)
@@ -46,12 +43,11 @@ public class WorkorderResourceTest {
         assertEquals(id, id2);
         assertNotNull(addDt);
 
-        //Update eamId - expect new val, & modDt
+        //Update: eamId - expect new val, & modDt
         var eamId = "919";
-        Response resp_put_eamid = given()
-                .header("Content-type", MediaType.APPLICATION_JSON)
+        Response resp_put_eamid = given().header("Content-type", MediaType.APPLICATION_JSON)
                 .and().pathParams("id", id, "eamId", eamId)
-                .when().put("{id}/eam/{eamId}")
+                .when().patch("{id}/eam/{eamId}")
                 .then()
                 .extract().response();
         log.info("PUT response: " +resp_put_eamid.asPrettyString());
@@ -62,6 +58,18 @@ public class WorkorderResourceTest {
         assertEquals(eamId,eamId2);
         String modDt =  get_after_put_eam.jsonPath().getString("modDate");
         assertNotNull(modDt);
+
+        //Update: Status
+        var status = "P";
+        Response resp_patch_status= given().header("Content-type", MediaType.APPLICATION_JSON)
+                .and().pathParams("id", id, "status", status)
+                .when().patch("{id}/status/{status}")
+                .then().extract().response();
+        log.info("PUT response: " +resp_put_eamid.asPrettyString());
+        assertEquals(Status.OK.getStatusCode(), resp_patch_status.statusCode());
+        //get again
+        Response get_after_patch_status = getWorkOrderResp(id);
+        assertEquals(status,get_after_patch_status.jsonPath().getString("status"));
 
     }
 
@@ -79,6 +87,4 @@ public class WorkorderResourceTest {
         assertEquals(id, id2);
         return getResponse;
     }
-
-
 }
