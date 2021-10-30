@@ -12,16 +12,17 @@ import java.util.StringJoiner;
 @Entity
 @Table(name = "WO")
 @NamedQuery(name = "WorkOrder.findActionable"
-        , query = "FROM Workorder wo WHERE wo.createDate  >=  to_date(: sinceDate,'yyyy-MM-dd')  " +
-        "AND (wo.status = 'N' or wo.status = 'P')" +
-        " ORDER BY wo.id"
+        , query = "FROM Workorder wo WHERE " +
+        "(wo.createDate is null OR wo.createDate  >=  to_date(: sinceDate,'yyyy-MM-dd')  )" +
+        "AND (wo.status is null or wo.status = 'N' or wo.status = 'P' )" +
+        "ORDER BY wo.id"
         , hints = @QueryHint(name = "org.hibernate.cacheable", value = "false")) //trunc(:sinceDate - 1,'DD')
 @NamedQuery(name = "WorkOrder.findById", query = "FROM Workorder wo WHERE wo.id = : id")
 //@NamedQuery(name = "WorkOrder.updateEamId", query = "Workorder SET eamId = : eamId WHERE id = : id")
 
 @Cacheable
 public class Workorder { //extends PanacheEntityBase {
-    @Id
+    @javax.persistence.Id
     @GeneratedValue(generator = "WO_SEQ")
     @Min(value = 0L, message = "The value must be positive")
     @Column(name = "WO_ID", length = 12, unique = true)
@@ -37,7 +38,7 @@ public class Workorder { //extends PanacheEntityBase {
     public Instant createDate;
 
     @Column(name = "WO_DSPTCH_DT")
-    public Date dispatchDate;
+    public Instant dispatchDate;
 
     @Column(name = "DSPTCH_GRP_CD", length = 10)
     public String dispatchGroupCode;

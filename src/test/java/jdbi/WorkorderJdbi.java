@@ -1,4 +1,4 @@
-package model;
+package jdbi;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
