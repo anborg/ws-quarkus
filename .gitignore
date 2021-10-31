@@ -9,3 +9,4 @@ target/
 .idea
 .github
 /quarkus.log
+git branch --set-upstream-to=origin/basic_rest_v2021-11 basic_rest_v2021-11
