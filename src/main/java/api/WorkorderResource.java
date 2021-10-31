@@ -145,15 +145,3 @@ public class WorkorderResource {
         return Response.ok(out).build();
     }
 }
-
-//    @DELETE
-//    @Path("{id}")
-//    @Transactional
-//    public Response delete(@PathParam("id") Long id) {
-//        var entity = em.getReference(WorkOrder.class, id);
-//        if (entity == null) {
-//            throw new WebApplicationException("WorkOrder with id of " + id + " does not exist.", 404);
-//        }
-//        em.remove(entity);
-//        return Response.status(204).build();
-//    }
