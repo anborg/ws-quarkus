@@ -20,7 +20,7 @@ public class WorkorderRepo implements PanacheRepository<Workorder> {
 //        var out = workorderRepo.find("#WorkOrder.findActionable", paramsMap).list();
         // create a query for all actionable
         PanacheQuery<Workorder> query = find("#WorkOrder.findActionable", paramsMap);
-        query.page(Page.of(pageRequest.pageNum, pageRequest.pageSize));
+        query.page(Page.of(pageRequest.pageNum-1, pageRequest.pageSize));
         int numberOfPages = query.pageCount();
         // get the first page
         List<Workorder> firstPage = query.list();
@@ -29,7 +29,7 @@ public class WorkorderRepo implements PanacheRepository<Workorder> {
        out.pageSize = pageRequest.pageSize;
        out.pagesCount = query.pageCount();
        out.hitsCount = query.count();
-       out.list =query.page(Page.of(pageRequest.pageNum, pageRequest.pageSize)).list();
+       out.list =query.page(Page.of(pageRequest.pageNum-1, pageRequest.pageSize)).list();
        return out;
 
     }

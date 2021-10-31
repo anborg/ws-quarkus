@@ -11,8 +11,8 @@ import java.util.List;
 @ToString
 public class PageResults<T> {
     public long pageNum;
-    public long pageSize;
     public long pagesCount;
     public long hitsCount;
+    public long pageSize;
     public List<T> list;
 }
