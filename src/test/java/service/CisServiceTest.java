@@ -1,19 +1,18 @@
 package service;
 
-import api.PageRequest;
-import api.Util;
-import api.WorkorderResource;
+import model.PageRequest;
 import io.quarkus.test.junit.QuarkusTest;
 import model.Workorder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import test.TestUtil;
+import util.Util;
 
 import javax.inject.Inject;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class CisServiceTest {
@@ -37,9 +36,19 @@ public class CisServiceTest {
     }
 
     @Test
+    public void wo_throw_error_actionable_invalid_page_access(){
+        assertThrows(IllegalArgumentException.class, () -> {
+            PageRequest page = new PageRequest();
+            page.pageNum=0;
+            var out = service.getActionable(Util.nowInstant(), page);
+
+        });
+    }
+
+    @Test
     public void wo_should_get_paged_actionable(){
         PageRequest page = new PageRequest();
-        page.pageNum=0;
+        page.pageNum=1;
         var out = service.getActionable(Util.nowInstant(), page);
         log.info(""+out);
         assertNotNull(out);

@@ -2,6 +2,8 @@ package api;
 
 import io.smallrye.common.annotation.Blocking;
 import model.Id;
+import model.PageRequest;
+import model.PageResults;
 import model.Workorder;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -10,6 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import service.CisService;
+import util.Util;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,7 +35,7 @@ import java.util.logging.Logger;
 @ApplicationScoped
 public class WorkorderResource {
     private static final Logger log = Logger.getLogger(WorkorderResource.class.getName());
-    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     @Inject
     CisService service;
@@ -43,12 +46,12 @@ public class WorkorderResource {
     @APIResponse(responseCode = "500", description = "Server Error")
     @POST
     @Transactional
-    public Response create(@RequestBody(description = "new work order", content = @Content(mediaType = MediaType.APPLICATION_JSON, example = Apidocutil.workorder.newObject))//
+    public Response create(@RequestBody(description = "new work order", content = @Content(mediaType = MediaType.APPLICATION_JSON, example = ApiUtil.workorder.newObject))//
                                        Workorder in) {
         final var errStr = "For creating: Do not set {id | addDate| modDate}. DB will allocate";
         if (Objects.nonNull(in.id) || Objects.nonNull(in.addDate) || Objects.nonNull(in.modDate)) {
             log.log(Level.SEVERE, errStr);
-            return Util.badRequest(errStr);
+            return ApiUtil.badRequest(errStr);
         }
         try {
             service.save(in);
@@ -56,7 +59,7 @@ public class WorkorderResource {
         }catch (Throwable t){
             var err = "Error creating object";
             log.log(Level.SEVERE, err, t);
-            return Util.serverError(err);
+            return ApiUtil.serverError(err);
         }
     }
     @GET
@@ -73,12 +76,12 @@ public class WorkorderResource {
             }else{
                 var err = "Invlaid id. Who is scanning for ids? id=" + id;
                 log.severe(err);
-                return Util.notFound();
+                return ApiUtil.notFound();
             }
         } catch (Throwable t) {
             var err = "Error fetching object";
             log.log(Level.SEVERE, err, t);
-            return Util.serverError(err);
+            return ApiUtil.serverError(err);
         }
     }
 
@@ -98,7 +101,7 @@ public class WorkorderResource {
         } catch (Throwable t) {
             var err = "Error updating object";
             log.log(Level.SEVERE, err, t);
-            return Util.serverError(err);
+            return ApiUtil.serverError(err);
         }
     }
     @PATCH
@@ -117,7 +120,7 @@ public class WorkorderResource {
         }  catch (Throwable t) {
             var err = "Error updating object";
             log.log(Level.SEVERE, err, t);
-            return Util.serverError(err);
+            return ApiUtil.serverError(err);
         }
     }
 
@@ -135,7 +138,7 @@ public class WorkorderResource {
         } catch (Throwable t) {
             var err = "Query date must be with past 6 months. Format allowed: yyyy-MM-dd.  Specific Error: " + t.getLocalizedMessage();
             log.log(Level.SEVERE, err);//Removing stacktrace. no need for this stacktracee in log
-            return Util.badRequest(err);
+            return ApiUtil.badRequest(err);
         }
 
         PageResults<Workorder> out = service.getActionable(sinceDate,pageRequest);

@@ -1,4 +1,4 @@
-package api;
+package util;
 
 import service.ServiceException;
 
@@ -6,25 +6,17 @@ import javax.ws.rs.core.Response;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Util {
-    static Response badRequest(String err) {
-        return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), err).build();
-    }
-
-    static Response notFound() {
-        return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
-    }
-    static Response serverError(String err) {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), err).build();
-    }
+    static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static Instant validateSearchDate(String sinceDateString){
         final int minDays = - 6*30, maxDays = 0;
         final var errDays =  "Query date should be between minDays="+ minDays +", maxDays="+maxDays;
         //
-        var localDate = LocalDate.parse(sinceDateString, WorkorderResource.formatter);
+        var localDate = LocalDate.parse(sinceDateString, formatter);
         var sinceDate = localDate.atStartOfDay(ZoneId.of("America/Montreal")).toInstant();
         var now = LocalDate.now();
         long dayDiff = ChronoUnit.DAYS.between(now, localDate);

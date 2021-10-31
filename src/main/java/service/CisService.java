@@ -1,14 +1,12 @@
 package service;
 
-import api.PageRequest;
-import api.PageResults;
+import model.PageRequest;
+import model.PageResults;
 import model.Workorder;
 import service.repo.WorkorderRepo;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package api;
+package model;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.ToString;

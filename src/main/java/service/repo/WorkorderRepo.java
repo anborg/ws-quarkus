@@ -1,7 +1,7 @@
 package service.repo;
 
-import api.PageRequest;
-import api.PageResults;
+import model.PageRequest;
+import model.PageResults;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Page;

@@ -1,8 +1,24 @@
 package api;
 
-import model.Workorder;
+import service.ServiceException;
 
-public class Apidocutil {
+import javax.ws.rs.core.Response;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+
+class ApiUtil {
+    static Response badRequest(String err) {
+        return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), err).build();
+    }
+
+    static Response notFound() {
+        return Response.status(Response.Status.NOT_FOUND.getStatusCode()).build();
+    }
+    static Response serverError(String err) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), err).build();
+    }
     public static class workorder {//deliberately lowercase
         public static final String newObject =
                 "{\n" +
@@ -19,4 +35,5 @@ public class Apidocutil {
                         "}"
                 ;
     }
+
 }
