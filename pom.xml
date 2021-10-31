@@ -38,7 +38,11 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm</artifactId>
     </dependency>
-<!--    <dependency>-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    </dependency>
+    <!--    <dependency>-->
 <!--      <groupId>io.quarkus</groupId>-->
 <!--      <artifactId>quarkus-hibernate-reactive</artifactId>-->
 <!--    </dependency>-->
@@ -78,13 +82,13 @@
       <version>2021.10</version>
       <systemPath>${project.basedir}/lib/xdb6.jar</systemPath>
     </dependency>
-    <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>orai18n</artifactId>
-      <scope>system</scope>
-      <version>2021.10</version>
-      <systemPath>${project.basedir}/lib/orai18n.jar</systemPath>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.oracle</groupId>-->
+<!--      <artifactId>orai18n</artifactId>-->
+<!--      <scope>system</scope>-->
+<!--      <version>2021.10</version>-->
+<!--      <systemPath>${project.basedir}/lib/orai18n.jar</systemPath>-->
+<!--    </dependency>-->
     <!-- https://mvnrepository.com/artifact/com.oracle.ojdbc/xmlparserv2 -->
     <dependency>
       <groupId>com.oracle.ojdbc</groupId>

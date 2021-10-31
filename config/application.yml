@@ -1,4 +1,6 @@
 quarkus:
+  package:
+    type: uber-jar
   log:
     level: INFO
     file:
@@ -35,7 +37,7 @@ quarkus:
     username: integ
     password: integ123
     jdbc:
-      url: jdbc:oracle:thin:@localhost:1521/xe
+      url: jdbc:oracle:thin:@localhost:1531/xe
       max-size: 8
   hibernate-orm:
     #datasource-cis:

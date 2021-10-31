@@ -1,12 +1,5 @@
-#Maven
-target/
-/**/.DS_Store
-# Local environment
-.env
-/.mvn/
+/.idea/
 /logs/
-.git
-.idea
-.github
-/quarkus.log
-git branch --set-upstream-to=origin/basic_rest_v2021-11 basic_rest_v2021-11
+/target/
+**/.DS_Store
+**/*.log

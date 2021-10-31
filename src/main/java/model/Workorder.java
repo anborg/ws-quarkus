@@ -60,7 +60,7 @@ public class Workorder { //extends PanacheEntityBase {
     public String status;
 
 
-    @Column(name = "ADD_DT")//, insertable = false
+    @Column(name = "ADD_DT", insertable = false, updatable = false)//, insertable = false
     public Instant addDate;
 
     @Column(name = "ADD_BY") //, insertable = false
