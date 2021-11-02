@@ -1,7 +1,8 @@
-drop sequence SEQ_CIS_API_USER;
+-- SET SCHEMA INTEG;
+-- drop sequence SEQ_CIS_API_USER;
 CREATE SEQUENCE SEQ_CIS_API_USER START WITH 1;
 
-drop table CIS_API_USER;
+-- drop table CIS_API_USER;
 create table CIS_API_USER (
     id number(19,0) DEFAULT SEQ_CIS_API_USER.nextval primary key not null ,
     password varchar2(255 char),
@@ -11,10 +12,10 @@ create table CIS_API_USER (
 );
 
 
-drop sequence WO_SEQ;
+-- drop sequence WO_SEQ;
 CREATE SEQUENCE WO_SEQ START WITH 1;
 
-drop table WO;
+-- drop table WO;
 create table WO (
       WO_ID NUMBER(12, 0) primary key
     , SVC_PT_ID NUMBER(12, 0) NOT NULL

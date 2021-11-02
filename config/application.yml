@@ -65,3 +65,30 @@ quarkus:
       basic: true
   ssl:
     native: true
+
+"%test":
+  quarkus:
+    datasource:
+      #datasource-cis: #named datasource - not working if it is single ds
+      db-kind: h2
+      username: sa
+      password:
+      jdbc:
+        url: jdbc:h2:mem:myDB;DB_CLOSE_DELAY=-1;MODE=Oracle;INIT=CREATE SCHEMA IF NOT EXISTS integ
+        max-size: 8
+    hibernate-orm:
+      sql-load-script: ${app.configBasePath}/../sql/cis/schema_ddl.sql
+      #datasource-cis:
+      #datasource: "datasource-cis" # defined above
+      packages: package model
+      database:
+        default-schema: integ
+        generation: drop-and-create # none, create, drop-and-create, drop, update, validate
+
+# Let's make sure we don't wipe the production data by accident!
+"%prod":
+  quarkus:
+   hibernate-orm:
+    sql-load-script: no-file
+    database:
+      generation: none
