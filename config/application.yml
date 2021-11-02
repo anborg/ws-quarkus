@@ -21,15 +21,15 @@ quarkus:
       console:
         "STRUCTURED_LOGGING":
           format: "%e%n"
-  category: # Configure the category and link the named handlers to it
-    "io.quarkus.category":
-      level: INFO
-      handlers:
-          STRUCTURED_LOGGING,STRUCTURED_LOGGING_FILE
-    "org.hibernate":
-      level: DEBUG
-      handlers:
-        STRUCTURED_LOGGING
+#  category: # Configure the category and link the named handlers to it
+#    "io.quarkus.category":
+#      level: INFO
+#      handlers:
+#          STRUCTURED_LOGGING,STRUCTURED_LOGGING_FILE
+#    "org.hibernate":
+#      level: DEBUG
+#      handlers:
+#        STRUCTURED_LOGGING
 
   swagger-ui:
     always-include: true
