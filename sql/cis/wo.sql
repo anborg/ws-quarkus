@@ -32,11 +32,16 @@ INSERT INTO WO (
 
 update wo set EAM_WO = '111' where WO_ID = 13;
 
-delete from WO;
+delete from WO wo where wo.WO_ID >1;
 commit;
 
-select * from WO ;
+
+
+select WO_ID, COMMENTS, ADD_DT, MOD_DT from WO ;
+
 
 -- where WO_DT >= to_date('2021-06-01','yyyy-MM-dd');
 
 select * from WO where WO_DT >= to_date('2021-07-01','yyyy-MM-dd');
+
+select * from CIS_API_USER;

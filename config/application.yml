@@ -1,3 +1,5 @@
+app:
+  configBasePath: /Volumes/data01/projects/zorg/on-stove/ws-quarkus/config
 quarkus:
   package:
     type: uber-jar
@@ -49,14 +51,17 @@ quarkus:
     log:
       sql: true
     sql-load-script: import.sql
-
-#%prod:
-#  quarkus:
-#   datasource:
-#    db-kind: oracle
-#    username: quarkus_test
-#    password: quarkus_test
-#    jdbc:
-#      url: jdbc:oracle://localhost/quarkus_test
-#      max-size: 8
-#      min-size: 2
+  http:
+#    port: 8080
+#    insecure-requests: disabled
+    ssl-port: 8043
+    ssl:
+      certificate:
+        file: ${app.configBasePath}/cert.pem #server certificate or certificate chain in PEM format.
+        key-file: ${app.configBasePath}/key.pem #ertificate private key file in PEM format.
+#        key-store-file: ${app.configBasePath}/keystore.jks
+#        key-store-password: password
+    auth:
+      basic: true
+  ssl:
+    native: true

@@ -1,6 +1,5 @@
 package model;
-//import io.quarkus.hibernate.reactive.panache.PanacheEntity;
-//import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -22,7 +21,7 @@ import java.util.StringJoiner;
 
 @Cacheable
 public class Workorder { //extends PanacheEntityBase {
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(generator = "WO_SEQ")
     @Min(value = 0L, message = "The value must be positive")
     @Column(name = "WO_ID", length = 12, unique = true)
@@ -55,10 +54,8 @@ public class Workorder { //extends PanacheEntityBase {
     @Column(length = 4000)
     public String instructions;
 
-
     @Column(name = "WO_STAT_CD", length = 10)
     public String status;
-
 
     @Column(name = "ADD_DT", insertable = false, updatable = false)//, insertable = false
     public Instant addDate;

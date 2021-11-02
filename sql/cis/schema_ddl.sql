@@ -1,3 +1,16 @@
+drop sequence SEQ_CIS_API_USER;
+CREATE SEQUENCE SEQ_CIS_API_USER START WITH 1;
+
+drop table CIS_API_USER;
+create table CIS_API_USER (
+    id number(19,0) DEFAULT SEQ_CIS_API_USER.nextval primary key not null ,
+    password varchar2(255 char),
+    role varchar2(255 char),
+    username varchar2(255 char)
+
+);
+
+
 drop sequence WO_SEQ;
 CREATE SEQUENCE WO_SEQ START WITH 1;
 
@@ -6,7 +19,7 @@ create table WO (
       WO_ID NUMBER(12, 0) primary key
     , SVC_PT_ID NUMBER(12, 0) NOT NULL
     , EAM_WO VARCHAR2(10 CHAR)
-    , WO_DT DATE 
+    , WO_DT DATE
     , WO_DSPTCH_DT DATE
     , MTR_WRK_TP_CD VARCHAR2(4 CHAR) DEFAULT 'ZZZZ' NOT NULL
     , WO_STAT_CD VARCHAR2(2 CHAR)

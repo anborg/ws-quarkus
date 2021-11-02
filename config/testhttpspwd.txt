@@ -1,0 +1,1 @@
+machine localhost login lucitest password luci123

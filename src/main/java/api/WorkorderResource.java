@@ -1,9 +1,9 @@
 package api;
 
-import io.smallrye.common.annotation.Blocking;
-import model.Id;
+
 import model.PageRequest;
 import model.PageResults;
+import model.ResponseId;
 import model.Workorder;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -14,6 +14,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import service.CisService;
 import util.Util;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -23,51 +24,53 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path("/api/v1/asset/workorders")
+@Tag(name = Api.workorders.tag)
+
+@Path(Api.workorders.url) // /api/v1/asset/
+@ApplicationScoped
+@RolesAllowed(Api.role.apiuser)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Tag(name = "Workorders")
-@ApplicationScoped
 public class WorkorderResource {
     private static final Logger log = Logger.getLogger(WorkorderResource.class.getName());
-
 
     @Inject
     CisService service;
 
     @Operation(operationId = "workorderCreate",summary = "Create",description = "Do not provide id, addDate, modDate")
-    @APIResponse(responseCode = "201", description = "Created")
-    @APIResponse(responseCode = "400", description = "Bad Request")
-    @APIResponse(responseCode = "500", description = "Server Error")
+    @APIResponse(responseCode = Api.res.created.code, description = Api.res.created.desc)
+    @APIResponse(responseCode = Api.res.bad_req.code, description = Api.res.bad_req.desc)
+    @APIResponse(responseCode = Api.res.server_err.code, description = Api.res.server_err.desc)
+//    @APIResponse(Api.response.bad_request) //TODO how?
     @POST
     @Transactional
-    public Response create(@RequestBody(description = "new work order", content = @Content(mediaType = MediaType.APPLICATION_JSON, example = ApiUtil.workorder.newObject))//
+    public Response create(@RequestBody(description = "new work order", content = @Content(mediaType = MediaType.APPLICATION_JSON, example = Api.workorders.newObject))//
                                        Workorder in) {
         final var errStr = "For creating: Do not set {id | addDate| modDate}. DB will allocate";
         if (Objects.nonNull(in.id) || Objects.nonNull(in.addDate) || Objects.nonNull(in.modDate)) {
             log.log(Level.SEVERE, errStr);
-            return ApiUtil.badRequest(errStr);
+            return Api.badRequest(errStr);
         }
         try {
             service.save(in);
-            return Response.ok(Id.builder().id(in.id).build()).status(Response.Status.CREATED.getStatusCode()).build();
+            return Response.ok(ResponseId.builder().id(in.id).build()).status(Response.Status.CREATED.getStatusCode()).build();
         }catch (Throwable t){
             var err = "Error creating object";
             log.log(Level.SEVERE, err, t);
-            return ApiUtil.serverError(err);
+            return Api.serverError(err);
         }
     }
+
+    @Operation(operationId = "getById",summary = "Get",description = "get by id")
+    @APIResponse(responseCode = Api.res.ok.code, description = Api.res.ok.desc)
+    @APIResponse(responseCode = Api.res.not_found.code, description = Api.res.not_found.desc)
+    @APIResponse(responseCode = Api.res.server_err.code, description = Api.res.server_err.desc)
     @GET
     @Path("{id}")
-    @Operation(operationId = "getById",summary = "Get",description = "get by id")
-    @APIResponse(responseCode = "200", description = "OK")
-    @APIResponse(responseCode = "404", description = "Not Found")
-    @APIResponse(responseCode = "500", description = "Server Error")
     public Response get( @Parameter(example = "1") @PathParam("id") Long id) {
         try {
             var out =  service.byId(id);
@@ -76,23 +79,22 @@ public class WorkorderResource {
             }else{
                 var err = "Invlaid id. Who is scanning for ids? id=" + id;
                 log.severe(err);
-                return ApiUtil.notFound();
+                return Api.notFound();
             }
         } catch (Throwable t) {
             var err = "Error fetching object";
             log.log(Level.SEVERE, err, t);
-            return ApiUtil.serverError(err);
+            return Api.serverError(err);
         }
     }
 
+    @Operation(operationId = "linkEamId",summary = "Associate eamId",description = "For linking a cis-workorders to eam-workorders")
+    @APIResponse(responseCode = Api.res.ok.code, description = Api.res.ok.desc)
+    @APIResponse(responseCode = Api.res.not_found.code, description = Api.res.not_found.desc)
+    @APIResponse(responseCode = Api.res.server_err.code, description = Api.res.server_err.desc)
     @PATCH
     @Path("{id}/eam/{eamId}")
     @Transactional
-    @Operation(operationId = "linkEamId",summary = "Associate eamId",description = "For linking a cis-workorder to eam-workorder")
-    @APIResponse(responseCode = "200", description = "OK")
-    @APIResponse(responseCode = "400", description = "Bad Request")
-    @APIResponse(responseCode = "404", description = "Not Found")
-    @APIResponse(responseCode = "500", description = "Server Error")
     public Response update(@Parameter(example = "1") @PathParam("id") @NotNull Long id
             ,@Parameter(example = "222") @PathParam("eamId")  @NotEmpty String eamId) {
         try {
@@ -101,17 +103,16 @@ public class WorkorderResource {
         } catch (Throwable t) {
             var err = "Error updating object";
             log.log(Level.SEVERE, err, t);
-            return ApiUtil.serverError(err);
+            return Api.serverError(err);
         }
     }
+    @Operation(operationId = "updateStatus",summary = "Status update", description = "When eam-Workorder is completed, use this to update status")
+    @APIResponse(responseCode = Api.res.ok.code, description = Api.res.ok.desc)
+    @APIResponse(responseCode = Api.res.not_found.code, description = Api.res.not_found.desc)
+    @APIResponse(responseCode = Api.res.server_err.code, description = Api.res.server_err.desc)
     @PATCH
     @Path("{id}/status/{status}")
     @Transactional
-    @Operation(operationId = "updateStatus",summary = "Status update", description = "When eam-Workorder is completed, use this to update status")
-    @APIResponse(responseCode = "200", description = "OK")
-    @APIResponse(responseCode = "400", description = "Bad Request")
-    @APIResponse(responseCode = "404", description = "Not Found")
-    @APIResponse(responseCode = "500", description = "Server Error")
     public Response updateStatus(@Parameter(example = "1") @PathParam("id") @NotNull Long id
             ,@Parameter(example = "P")@PathParam("status") @NotEmpty String status) {
         try {
@@ -120,17 +121,16 @@ public class WorkorderResource {
         }  catch (Throwable t) {
             var err = "Error updating object";
             log.log(Level.SEVERE, err, t);
-            return ApiUtil.serverError(err);
+            return Api.serverError(err);
         }
     }
 
+    @Operation(operationId = "getActionable", summary = "Search for", description = "Workorders that need to be acted upon, e.g new/pending")
+    @APIResponse(responseCode = Api.res.ok.code, description = Api.res.ok.desc)
+    @APIResponse(responseCode = Api.res.bad_req.code, description = Api.res.bad_req.desc)
+    @APIResponse(responseCode = Api.res.server_err.code, description = Api.res.server_err.desc)
     @GET
     @Path("actionable/since/{createDate}")
-    @Blocking
-    @Operation(operationId = "getActionable", summary = "Search for", description = "Workorders that need to be acted upon, e.g new/pending")
-    @APIResponse(responseCode = "200", description = "OK")
-    @APIResponse(responseCode = "400", description = "Bad Request")
-    @APIResponse(responseCode = "500", description = "Server Error")
     public Response getActionable(@DefaultValue("2021-10-30")@PathParam("createDate") String sinceDateString, @BeanParam PageRequest pageRequest) {//, @BeanParam PageRequest pageRequest
         Instant sinceDate;
         try {
@@ -138,7 +138,7 @@ public class WorkorderResource {
         } catch (Throwable t) {
             var err = "Query date must be with past 6 months. Format allowed: yyyy-MM-dd.  Specific Error: " + t.getLocalizedMessage();
             log.log(Level.SEVERE, err);//Removing stacktrace. no need for this stacktracee in log
-            return ApiUtil.badRequest(err);
+            return Api.badRequest(err);
         }
 
         PageResults<Workorder> out = service.getActionable(sinceDate,pageRequest);

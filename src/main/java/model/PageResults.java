@@ -1,6 +1,7 @@
 package model;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Builder;
 import lombok.ToString;
 
 import javax.ws.rs.DefaultValue;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RegisterForReflection
 @ToString
+@Builder
 public class PageResults<T> {
     public long pageNum;
     public long pagesCount;

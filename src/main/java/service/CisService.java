@@ -20,7 +20,7 @@ public class CisService {
 //    EntityManager em;
 
     @Inject
-    WorkorderRepo repo;
+    private WorkorderRepo repo;
 
     public PageResults<Workorder> getActionable(Instant sinceDate, PageRequest pageRequest) {
         var out = repo.findActionable(sinceDate,pageRequest);
@@ -40,6 +40,7 @@ public class CisService {
     }
 
     //WARNING: DO NOT add @Transactional here
+    @Transactional
     public Workorder associateEamId(Long id, String eamId) {
         var inOpt = byId(id);
         if(inOpt.isEmpty()){
@@ -51,7 +52,7 @@ public class CisService {
         var out = save(in);
         return out;
     }
-
+    @Transactional
     public Workorder updateStatus(Long id, String status) {
         var inOpt = byId(id);
         if(inOpt.isEmpty()){

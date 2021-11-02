@@ -1,22 +1,20 @@
 package api;
-
+;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.response.Response;
 import model.PageRequest;
 import model.Workorder;
 import org.junit.jupiter.api.Test;
-import test.TestUtil;
 import util.Util;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.*;
+import javax.ws.rs.core.Response.Status;
 import java.util.logging.Logger;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static test.TestUtil.auth.givenBasicAuth;
+import static test.TestUtil.workorder;
 
 
 @QuarkusTest
@@ -26,10 +24,9 @@ public class WorkorderResourceTest {
 
     @Test
     public void happy_path_workorder_should_succeed() {
-        final var in = TestUtil.workorder.build4Create();
+        final var in = workorder.build4Create();
         //Create : expect new obj & id & addDt
-        Response post_resp = given()
-                .header("Content-type", MediaType.APPLICATION_JSON)
+        Response post_resp = givenBasicAuth()
                 .and().body(in)
                 .when().post()
                 .then().extract().response();
@@ -46,7 +43,7 @@ public class WorkorderResourceTest {
 
         //Update: eamId - expect new val, & modDt
         var eamId = "919";
-        Response resp_put_eamid = given().header("Content-type", MediaType.APPLICATION_JSON)
+        Response resp_put_eamid = givenBasicAuth()
                 .and().pathParams("id", id, "eamId", eamId)
                 .when().patch("{id}/eam/{eamId}")
                 .then()
@@ -62,7 +59,7 @@ public class WorkorderResourceTest {
 
         //Update: Status
         var status = "P";
-        Response resp_patch_status= given().header("Content-type", MediaType.APPLICATION_JSON)
+        Response resp_patch_status= givenBasicAuth()
                 .and().pathParams("id", id, "status", status)
                 .when().patch("{id}/status/{status}")
                 .then().extract().response();
@@ -75,7 +72,7 @@ public class WorkorderResourceTest {
         //Actionable: get
         var sinceDate = Util.now_yyyy_MM_dd();
         var page = new PageRequest(); page.pageNum=1;
-        Response resp_get_actionable= given().header("Content-type", MediaType.APPLICATION_JSON)
+        Response resp_get_actionable= givenBasicAuth()
                 .and().pathParams("createDate",sinceDate)
                 .and().queryParam("pageNum", page.pageNum)
                 .when().get("actionable/since/{createDate}")
@@ -88,7 +85,7 @@ public class WorkorderResourceTest {
 
     @Test
     public void post_should_reject_invalid_wo_withid_addDt_modDt(){
-        final var in = TestUtil.workorder.build4Create();
+        final var in = workorder.build4Create();
 
         {//Invalid to set id
             in.id = 123L;
@@ -110,9 +107,9 @@ public class WorkorderResourceTest {
         }
     }
 
+
     private Response getPostResponse(Workorder in){
-        Response post_resp = given()
-                .header("Content-type", MediaType.APPLICATION_JSON)
+        Response post_resp = givenBasicAuth()
                 .and().body(in)
                 .when().post()
                 .then().extract().response();
@@ -130,7 +127,7 @@ public class WorkorderResourceTest {
     public void get_actionable_should_fail_for_dates_beyond_window(){
         var sinceDate = Util.to_yyyy_MM_dd(Util.nowLocalDate().minusMonths(7));
         var page = new PageRequest(); page.pageNum=1;
-        Response resp_get_actionable= given().header("Content-type", MediaType.APPLICATION_JSON)
+        Response resp_get_actionable= givenBasicAuth()
                 .and().pathParams("createDate",sinceDate)
                 .and().queryParam("pageNum", page.pageNum)
                 .when().get("actionable/since/{createDate}")
@@ -141,8 +138,7 @@ public class WorkorderResourceTest {
     }
 
     private Response getWorkOrderResp(Long id) {
-        Response getResponse = given()
-                .header("Content-type", MediaType.APPLICATION_JSON)
+        Response getResponse = givenBasicAuth()
                 .and().pathParam("id", id)
                 .when().get("{id}")
                 .then()

@@ -1,8 +1,21 @@
 package test;
 
+import io.restassured.specification.RequestSpecification;
 import model.Workorder;
 
+import javax.ws.rs.core.MediaType;
+
+import static io.restassured.RestAssured.given;
+
 public class TestUtil {
+    public static class auth{
+        public static RequestSpecification givenBasicAuth(){
+            return given()
+                    .relaxedHTTPSValidation()
+                    .auth().preemptive().basic("lucitest", "luci123")
+                    .header("Content-type", MediaType.APPLICATION_JSON);
+        }
+    }
     public static class workorder {//deliberately lowercase
 
         public static Workorder build4Create() {

@@ -22,17 +22,25 @@ public class CisServiceTest {
     CisService service;
 
     @Test
-    public void shouldSaveWorkorder() {
+    public void wo_happy_path() {
         final Workorder in = TestUtil.workorder.build4Create();
         log.info("Before service persist: \n\n" + in);
         service.save(in);
         final Optional<Workorder> outOpt = service.byId(in.id);
         var out = outOpt.get();
-        log.info("After service persist: \n\n" + out);
+        //log.info("After service persist: \n\n" + out);
         assertNotNull(out.id);
 //        Assertions.assertNotNull(out.addDate);
         Assertions.assertNull(out.modDate);
         Assertions.assertNull(out.modBy);
+        final var eamId = "123a";
+        service.associateEamId(in.id, eamId);
+        final var status = "Z";
+        service.updateStatus(in.id, status);
+
+        var out2 = service.byId(in.id).get();
+        Assertions.assertNull(out2.modDate);
+        Assertions.assertNull(out2.modBy);
     }
 
     @Test
