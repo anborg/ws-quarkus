@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static test.TestUtil.auth.givenBasicAuth;
+import static test.TestUtil.auth_apiuser.givenBasicAuth;
 import static test.TestUtil.workorder;
 
 

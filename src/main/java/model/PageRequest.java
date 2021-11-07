@@ -4,7 +4,6 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
 @RegisterForReflection

@@ -127,7 +127,7 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-h2</artifactId>
-      <scope>test</scope>
+<!--      <scope>test</scope>-->
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -210,6 +210,12 @@
           </execution>
         </executions>
       </plugin>
+      <!-- TODO jasypt experiment remove later -->
+      <plugin>
+        <groupId>com.github.ulisesbocchio</groupId>
+        <artifactId>jasypt-maven-plugin</artifactId>
+        <version>3.0.3</version>
+      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -226,11 +232,11 @@
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${surefire-plugin.version}</version>
             <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
+              <execution><!-- TODO enable this section as before -->
+<!--                <goals>-->
+<!--                  <goal>integration-test</goal>-->
+<!--                  <goal>verify</goal>-->
+<!--                </goals>-->
                 <configuration>
                   <systemPropertyVariables>
                     <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>

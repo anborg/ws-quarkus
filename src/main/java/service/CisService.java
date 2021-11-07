@@ -1,14 +1,20 @@
 package service;
 
+import io.quarkus.elytron.security.common.BcryptUtil;
 import model.PageRequest;
 import model.PageResults;
+import model.User;
 import model.Workorder;
+import service.repo.UserRepo;
 import service.repo.WorkorderRepo;
+import util.Util;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -16,11 +22,33 @@ import java.util.logging.Logger;
 public class CisService {
     private static final Logger log = Logger.getLogger(CisService.class.getName());
 
-//    @Inject
-//    EntityManager em;
-
     @Inject
-    private WorkorderRepo repo;
+    WorkorderRepo repo;
+    @Inject
+    UserRepo userRepo;
+    @Transactional
+    public void create(User in){
+        User user = new User();
+        user.username = in.username;
+        user.password = BcryptUtil.bcryptHash(in.password);
+        //user.role = role; //For security. Do not make this easy, let support guy insert role manually.
+        userRepo.persist(user);
+    }
+    @Transactional
+    public void resetPassword(User in){
+        List<User> dbObjList = userRepo.list("username", in.username);
+        if(Objects.isNull(dbObjList) || dbObjList.isEmpty()){
+            log.severe("Attempt to reset pwd for a nonexisting username=" + in.username + ". Hint: Check if it is system problem, or hacking attempt");
+            throw new ServiceException("Error resetting pwd for username: "+ in.username + ". Please contact support"); //Do not provide details
+        }
+        if(dbObjList.size() >1 ){
+            log.severe("Potential flaw in XX USER table. Current design should not allow duplicate username in that table");
+            throw new ServiceException("System flaw. Contact support");//DO not reveal what flaw.
+        }
+        User onlyExistingUser = dbObjList.get(0);
+        onlyExistingUser.password = Util.hash(in.password);
+        userRepo.persist(onlyExistingUser);
+    }
 
     public PageResults<Workorder> getActionable(Instant sinceDate, PageRequest pageRequest) {
         var out = repo.findActionable(sinceDate,pageRequest);

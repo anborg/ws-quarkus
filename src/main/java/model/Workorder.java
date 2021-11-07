@@ -3,7 +3,6 @@ package model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import java.sql.Date;
 import java.time.Instant;
 import java.util.StringJoiner;
 
@@ -24,7 +23,7 @@ public class Workorder { //extends PanacheEntityBase {
     @Id
     @GeneratedValue(generator = "WO_SEQ")
     @Min(value = 0L, message = "The value must be positive")
-    @Column(name = "WO_ID", length = 12, unique = true)
+    @Column(name = "WO_ID", length = 12)//, unique = true
     public Long id;
     @Min(value = 0L, message = "The value must be positive")
     @Column(name = "SVC_PT_ID", length = 12)

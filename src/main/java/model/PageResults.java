@@ -4,8 +4,6 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Builder;
 import lombok.ToString;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.QueryParam;
 import java.util.List;
 
 @RegisterForReflection

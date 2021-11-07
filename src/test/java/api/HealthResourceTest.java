@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
-import static test.TestUtil.auth.givenBasicAuth;
+import static test.TestUtil.auth_apiuser.givenBasicAuth;
 
 @QuarkusTest
 @TestHTTPEndpoint(HealthResource.class)

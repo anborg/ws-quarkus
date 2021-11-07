@@ -5,10 +5,9 @@ CREATE SEQUENCE SEQ_CIS_API_USER START WITH 1;
 -- drop table CIS_API_USER;
 create table CIS_API_USER (
     id number(19,0) DEFAULT SEQ_CIS_API_USER.nextval primary key not null ,
+    username varchar2(255 char) UNIQUE,
     password varchar2(255 char),
-    role varchar2(255 char),
-    username varchar2(255 char)
-
+    role varchar2(255 char)
 );
 
 
@@ -25,7 +24,7 @@ create table WO (
     , MTR_WRK_TP_CD VARCHAR2(4 CHAR) DEFAULT 'ZZZZ' NOT NULL
     , WO_STAT_CD VARCHAR2(2 CHAR)
     , DSPTCH_GRP_CD VARCHAR2(10 CHAR)
-    , CD_SRC VARCHAR2(10 CHAR)
+    , CD_SRC VARCHAR2(10 CHAR) -- this is actual user provided by apiuser. Taken from security principal of lucity or other.
     , FLD_ACT_ID VARCHAR2(10 CHAR)
     , CCNB_FA_PR_CD VARCHAR2(2 CHAR)
     , CCNB_FA_TP_CD VARCHAR2(8 CHAR)
@@ -43,11 +42,11 @@ create table WO (
     , FLAGGED VARCHAR2(4 BYTE)
     , ALT_WO_ID VARCHAR2(10 BYTE)
     -- change tracking info
-    , ADD_DT DATE DEFAULT SYSDATE NOT NULL
-    , ADD_BY VARCHAR2(50 CHAR) DEFAULT USER
+    , ADD_DT DATE DEFAULT SYSDATE NOT NULL --insert ts
+    , ADD_BY VARCHAR2(50 CHAR) --
 
-    , MOD_DT DATE
-    , MOD_BY VARCHAR2(50 CHAR)
+    , MOD_DT DATE -- managed by trigger (db is the truth)
+    , MOD_BY VARCHAR2(50 CHAR) -- same as addby
 );
 
 CREATE OR REPLACE TRIGGER WO_before_ins_upd

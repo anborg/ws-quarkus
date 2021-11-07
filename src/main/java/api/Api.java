@@ -2,7 +2,7 @@ package api;
 
 import javax.ws.rs.core.Response;
 
-final class Api {
+public final class Api {
     private static final String base = "/api/v1/asset/";
     public static class res{
 //        static final APIResponse bad_request ;
@@ -49,9 +49,19 @@ final class Api {
                         "}"
                 ;
     }
-
-    public static class  role{
-        public static final String apiuser = "apiuser";
+    public static class users {
+        static final String tag = "users";
+        static final String url = base + tag ;
+    }
+    public static class  adminuser{
+        public static final String testuser = "adminuser";
+        public static final String testpassword = "adminuser123";
+        public static final String role = "adminuser";
+    }
+    public static class  apiuser{
+        public static final String testuser = "luci";
+        public static final String testpassword = "luci123";
+        public static final String role = "apiuser";
     }
 
     static Response badRequest(String err) {

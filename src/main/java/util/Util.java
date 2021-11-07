@@ -1,5 +1,6 @@
 package util;
 
+import io.quarkus.elytron.security.common.BcryptUtil;
 import service.ServiceException;
 
 import java.time.Instant;
@@ -35,5 +36,9 @@ public class Util {
 
     public static String to_yyyy_MM_dd(LocalDate date) {
         return date.format(formatterYYYY_MM_DD);
+    }
+
+    public static String hash(String password) {
+        return BcryptUtil.bcryptHash(password);
     }
 }

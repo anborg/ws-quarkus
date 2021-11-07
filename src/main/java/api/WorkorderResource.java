@@ -9,8 +9,8 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
-import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import service.CisService;
 import util.Util;
 
@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 
 @Path(Api.workorders.url) // /api/v1/asset/
 @ApplicationScoped
-@RolesAllowed(Api.role.apiuser)
+@RolesAllowed(Api.apiuser.role)
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class WorkorderResource {

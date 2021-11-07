@@ -1,16 +1,14 @@
 package service.repo;
 
-import model.PageRequest;
-import model.PageResults;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Page;
+import model.PageRequest;
+import model.PageResults;
 import model.Workorder;
-import org.hibernate.jdbc.Work;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 
 @ApplicationScoped

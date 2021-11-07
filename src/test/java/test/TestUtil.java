@@ -1,5 +1,6 @@
 package test;
 
+import api.Api;
 import io.restassured.specification.RequestSpecification;
 import model.Workorder;
 
@@ -8,11 +9,11 @@ import javax.ws.rs.core.MediaType;
 import static io.restassured.RestAssured.given;
 
 public class TestUtil {
-    public static class auth{
+    public static class auth_apiuser {
         public static RequestSpecification givenBasicAuth(){
             return given()
                     .relaxedHTTPSValidation()
-                    .auth().preemptive().basic("lucitest", "luci123")
+                    .auth().preemptive().basic(Api.apiuser.testuser,Api.apiuser.testpassword)
                     .header("Content-type", MediaType.APPLICATION_JSON);
         }
     }

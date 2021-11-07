@@ -1,12 +1,13 @@
 package api;
 
-import oracle.jdbc.proxy.annotation.GetCreator;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
@@ -24,7 +25,7 @@ public class HealthResource {
     }
     @GET
     @Path("secure")
-    @RolesAllowed(Api.role.apiuser)
+    @RolesAllowed(Api.apiuser.role)
     public String helloSecure(@Context SecurityContext securityContext){
         return "Secure-hello to user: "+ securityContext.getUserPrincipal().getName();
     }

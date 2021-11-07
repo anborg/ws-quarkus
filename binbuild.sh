@@ -1,2 +1,2 @@
 # gu install native-image
-mvn package -Pnative -DskipTests
+mvn package -Pnative -DskipTests --allow-incomplete-classpath
