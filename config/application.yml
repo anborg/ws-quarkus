@@ -1,5 +1,6 @@
 app:
   configBasePath: /Volumes/data01/projects/zorg/on-stove/ws-quarkus/config
+
 quarkus:
   package:
     type: uber-jar
@@ -9,9 +10,9 @@ quarkus:
       enable: true
       async: true
       path: ./logs/cisapi.log
-      format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+      format: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
     console:
-      format: "%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
+      format: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n"
     # Configure a named handler that logs to file
     handler:
       file:
@@ -52,15 +53,15 @@ quarkus:
       sql: true
     sql-load-script: import.sql
   http:
-#    port: 8080
-#    insecure-requests: disabled
+    #port: 8080
+    #insecure-requests: disabled
     ssl-port: 8043
     ssl:
       certificate:
-        file: ${app.configBasePath}/cert.pem #server certificate or certificate chain in PEM format.
-        key-file: ${app.configBasePath}/key.pem #ertificate private key file in PEM format.
-#        key-store-file: ${app.configBasePath}/keystore.jks
-#        key-store-password: password
+        file: ${app.configBasePath}/ssl/${HOST:localhost}/cert.pem #server certificate or certificate chain in PEM format.
+        key-file: ${app.configBasePath}/ssl/${HOST:localhost}/key.pem #ertificate private key file in PEM format.
+        #key-store-file: ${app.configBasePath}/keystore.jks
+        #key-store-password: password
     auth:
       basic: true
   ssl:
@@ -86,9 +87,9 @@ quarkus:
         generation: drop-and-create # none, create, drop-and-create, drop, update, validate
 
 # Let's make sure we don't wipe the production data by accident!
-"%prod":
-  quarkus:
-   hibernate-orm:
-    sql-load-script: no-file
-    database:
-      generation: none
+#"%prod":
+#  quarkus:
+#   hibernate-orm:
+#    sql-load-script: no-file
+#    database:
+#      generation: none
